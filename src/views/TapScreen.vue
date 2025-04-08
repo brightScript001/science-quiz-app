@@ -1,18 +1,18 @@
 <template>
   <div class="screen tap-screen">
     <h2>{{ tapScreen.title }}</h2>
-
+    
     <div class="cards-grid">
-      <div
-        v-for="(card, index) in tapScreen.cards"
+      <div 
+        v-for="(card, index) in tapScreen.cards" 
         :key="index"
         class="card-wrapper"
-        :style="{
+        :style="{ 
           '--delay': `${index * 0.1}s`,
-          '--color': getCardColor(card.color),
+          '--color': getCardColor(card.color)
         }"
       >
-        <div
+        <div 
           class="card"
           :class="[card.color, { revealed: card.revealed }]"
           @click="$emit('reveal-card', index)"
@@ -28,31 +28,31 @@
         </div>
       </div>
     </div>
-
+    
     <NextButton @click="$emit('next-screen')" />
   </div>
 </template>
 
 <script setup>
-import NextButton from "../components/NextButton.vue";
+import NextButton from '../components/NextButton.vue';
 
 defineProps({
   tapScreen: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
-defineEmits(["reveal-card", "next-screen"]);
+defineEmits(['reveal-card', 'next-screen']);
 
 const getCardColor = (color) => {
   const colors = {
-    teal: "#06b6d4",
-    purple: "#a855f7",
-    orange: "#f97316",
-    blue: "#3b82f6",
+    teal: '#06b6d4',
+    purple: '#a855f7',
+    orange: '#f97316',
+    blue: '#3b82f6'
   };
-
+  
   return colors[color] || colors.blue;
 };
 </script>
@@ -92,44 +92,40 @@ h2 {
 
 .card {
   position: relative;
-  background-color: white;
-  border-radius: 16px;
   height: 180px;
   cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  border-radius: 16px;
 }
 
 .card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    var(--color),
-    color-mix(in srgb, var(--color), white 30%)
-  );
+  background: linear-gradient(135deg, var(--color), color-mix(in srgb, var(--color), white 30%));
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 0;
+  border-radius: 16px;
 }
 
 .card:hover::before {
   opacity: 0.1;
 }
 
-.card-front,
+.card-front, 
 .card-back {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
@@ -137,40 +133,45 @@ h2 {
   justify-content: center;
   padding: 1.5rem;
   text-align: center;
+  border-radius: 16px;
+}
+
+.card-front {
+  background-color: var(--color, #3b82f6);
+  color: white;
+  z-index: 2;
+  transform: rotateY(0deg);
 }
 
 .card-back {
-  transform: rotateY(180deg);
   background-color: white;
   color: #333;
+  transform: rotateY(180deg);
   overflow-y: auto;
+  z-index: 1;
 }
 
 .card.revealed {
   transform: rotateY(180deg);
 }
 
-.card.teal {
+.card.teal .card-front {
   background-color: #06b6d4;
-  color: white;
   --color: #06b6d4;
 }
 
-.card.purple {
+.card.purple .card-front {
   background-color: #a855f7;
-  color: white;
   --color: #a855f7;
 }
 
-.card.orange {
+.card.orange .card-front {
   background-color: #f97316;
-  color: white;
   --color: #f97316;
 }
 
-.card.blue {
+.card.blue .card-front {
   background-color: #3b82f6;
-  color: white;
   --color: #3b82f6;
 }
 
@@ -235,16 +236,16 @@ h2 {
   .cards-grid {
     gap: 1.5rem;
   }
-
+  
   .card {
     height: 200px;
   }
-
+  
   .card-icon {
     width: 48px;
     height: 48px;
   }
-
+  
   .card-label {
     font-size: 1.2rem;
   }
@@ -254,34 +255,34 @@ h2 {
   .screen {
     padding: 1.25rem;
   }
-
+  
   h2 {
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
   }
-
+  
   .cards-grid {
     gap: 1rem;
   }
-
+  
   .card {
     height: 160px;
   }
-
+  
   .card-icon {
     width: 32px;
     height: 32px;
     margin-bottom: 0.75rem;
   }
-
+  
   .card-label {
     font-size: 1rem;
   }
-
+  
   .card-title {
     font-size: 1.1rem;
   }
-
+  
   .card-description {
     font-size: 0.85rem;
   }
